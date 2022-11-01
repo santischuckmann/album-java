@@ -6,17 +6,44 @@ import java.util.List;
 public class AlbumDelMundial implements IAlbumDelMundial{
 	private ArrayList<Participante> participantes;
 	
+	public AlbumDelMundial() {
+		this.participantes = new ArrayList<Participante>();
+	}
+	
+	private void verificarParticipanteRegistrado(int dni) throws Exception {
+		Participante participante = obtenerParticipanteConDni(dni);
+		
+		if (participante == null)
+			throw new Exception("El participante no esta registrado en el sistema");
+	}
+	
+	private Participante obtenerParticipanteConDni(int dni) {
+		Participante participante = null;
+		
+		for (Participante p : participantes) {
+			if (dni == p.getDni())
+				participante = p;
+		}
+		
+		return participante;
+	}
+	
 	@Override
-	public int registrarParticipante(int dni, String nombre, String tipoAlbum) {
+	public int registrarParticipante(int dni, String nombre, String tipoAlbum) throws Exception {
 		Participante participante = new Participante(dni, nombre, tipoAlbum);
 		
 		return participante.obtenerCodigoDeAlbum();
 	}
 
 	@Override
-	public void comprarFiguritas(int dni) {
-		// TODO Auto-generated method stub
+	public void comprarFiguritas(int dni) throws Exception {
+		this.verificarParticipanteRegistrado(dni);
 		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		Figurita[] figuritasNuevas = Figurita.generarFiguritas(4);
+		
+		participante.recibirFiguritas(figuritasNuevas);
 	}
 
 	@Override
@@ -38,9 +65,12 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 	}
 
 	@Override
-	public boolean llenoAlbum(int dni) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean llenoAlbum(int dni) throws Exception {
+		this.verificarParticipanteRegistrado(dni);
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		return participante.completoAlbum();
 	}
 
 	@Override
