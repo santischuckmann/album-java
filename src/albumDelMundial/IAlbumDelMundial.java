@@ -4,21 +4,21 @@ import java.util.List;
 
 public interface IAlbumDelMundial {
 
-	/**
-	 * Registra un nuevo participante y devuelve el codigo unico del album
-	 * asociado.
-	 * 
-	 * Si el participante ya está registrado o el tipo de album es invalido, 
-	 * se debe lanzar una excepcion.
-	 */
+	ArrayList<int> participantes = new ArrayList<int>();
+	
 	int registrarParticipante(int dni, String nombre, String tipoAlbum);
-
-	/**
-	 * Se generan 4 figuritas al azar y 
-	 * se asocia al participante correspondiente identificado por dni
-	 * 
-	 * Si el participante no está registrado, se debe lanzar una excepción.
-	 */
+	
+	
+	for (int i = 0; i < participantes.length; i++) {
+		if (dni != this.participantes.dni && tipoAlbum == "AlbumExtendido" || tipoAlbum == "AlbumTradicional" || tipoAlbum == "AlbumWeb") {
+			this.participantes.add(new participantes (dni, nombre, tipoAlbum);
+		}
+		else {
+			return "please check your inputs and try again!";
+		}
+	}
+	
+	
 	void comprarFiguritas(int dni);
 	
 	/**
