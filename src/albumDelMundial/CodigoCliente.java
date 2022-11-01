@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CodigoCliente {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		IAlbumDelMundial sistema = new AlbumDelMundial();
 		

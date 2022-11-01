@@ -10,16 +10,18 @@ public interface IAlbumDelMundial {
 	 * 
 	 * Si el participante ya está registrado o el tipo de album es invalido, 
 	 * se debe lanzar una excepcion.
+	 * @throws Exception 
 	 */
-	int registrarParticipante(int dni, String nombre, String tipoAlbum);
+	int registrarParticipante(int dni, String nombre, String tipoAlbum) throws Exception;
 
 	/**
 	 * Se generan 4 figuritas al azar y 
 	 * se asocia al participante correspondiente identificado por dni
 	 * 
 	 * Si el participante no está registrado, se debe lanzar una excepción.
+	 * @throws Exception 
 	 */
-	void comprarFiguritas(int dni);
+	void comprarFiguritas(int dni) throws Exception;
 	
 	/**
 	 * Se generan 4 figuritas top 10 al azar y 
@@ -57,7 +59,7 @@ public interface IAlbumDelMundial {
 	 *  
 	 * Si el participante no está registrado, se debe lanzar una excepción.
 	 */
-	boolean llenoAlbum(int dni);
+	boolean llenoAlbum(int dni) throws Exception;
 
 	/**
 	 * Realiza el sorteo instantaneo con el codigo asociado al album 
