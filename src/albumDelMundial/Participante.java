@@ -10,7 +10,7 @@ public class Participante {
 	private ArrayList<Figurita> figuritasRepetidas;
 	private Album albumComprado;
 	
-	public Participante(int dni, String nombreDeUsuario, String tipoDeAlbum) throws Exception {
+	public Participante(int dni, String nombreDeUsuario, String tipoDeAlbum) {
 		this.dni = dni;
 		this.nombreDeUsuario = nombreDeUsuario;
 
@@ -21,8 +21,8 @@ public class Participante {
 		return this.albumComprado.obtenerCodigo();
 	}
 	
-	private Album registrarTipoDeAlbum (String tipoDeAlbum) throws Exception {
-		Fabrica fabrica = new Fabrica();
+	private Album registrarTipoDeAlbum (String tipoDeAlbum) {
+		Fabrica fabrica = Fabrica.visitarFabrica();
 		Album albumElegido = null;
 		
 		switch (tipoDeAlbum) {
@@ -35,7 +35,7 @@ public class Participante {
 		}
 		
 		if (albumElegido == null)
-			throw new Exception("El tipo de album brindado no es valido");
+			throw new RuntimeException("El tipo de album brindado no es valido");
 		
 		return albumElegido;
 		
@@ -48,8 +48,6 @@ public class Participante {
 			
 			figuritasRepetidas.add(figurita);
 		}
-		
-		// las recibe y las pega? o como era esto
 	}
 	
 	public int getDni() {

@@ -10,11 +10,11 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 		this.participantes = new ArrayList<Participante>();
 	}
 	
-	private void verificarParticipanteRegistrado(int dni) throws Exception {
+	private void verificarParticipanteRegistrado(int dni) {
 		Participante participante = obtenerParticipanteConDni(dni);
 		
 		if (participante == null)
-			throw new Exception("El participante no esta registrado en el sistema");
+			throw new RuntimeException("El participante no esta registrado en el sistema");
 	}
 	
 	private Participante obtenerParticipanteConDni(int dni) {
@@ -29,14 +29,14 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 	}
 	
 	@Override
-	public int registrarParticipante(int dni, String nombre, String tipoAlbum) throws Exception {
+	public int registrarParticipante(int dni, String nombre, String tipoAlbum) {
 		Participante participante = new Participante(dni, nombre, tipoAlbum);
 		
 		return participante.obtenerCodigoDeAlbum();
 	}
 
 	@Override
-	public void comprarFiguritas(int dni) throws Exception {
+	public void comprarFiguritas(int dni) {
 		this.verificarParticipanteRegistrado(dni);
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);

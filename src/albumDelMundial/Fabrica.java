@@ -18,8 +18,10 @@ public class Fabrica {
 	private String[] listadoDeMundialesTop10;
 	private Map<String, String[]> balonYPaisPorMundialTop10;
 	private Map<String, Integer> ranking;
+	
+	static private Fabrica fabrica = new Fabrica();
 
-	Fabrica() {
+	private Fabrica() {
 		random = new Random(System.currentTimeMillis());
 		lugaresPorPais = 12;
 		paisesParticipantes = generarPaisesClasificados();
@@ -27,6 +29,10 @@ public class Fabrica {
 		balonYPaisPorMundialTop10 = generarPaisesPorMundial();
 		ranking = generarRanking();
 		premiosInstantaneos = generarPremiosParaSorteoInstantaneo();
+	}
+	
+	static public Fabrica visitarFabrica() {
+		return fabrica;
 	}
 	
 	////////////////////////////////////////////////////////////////////////
