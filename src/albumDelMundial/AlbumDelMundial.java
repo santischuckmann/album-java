@@ -30,7 +30,12 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 	
 	@Override
 	public int registrarParticipante(int dni, String nombre, String tipoAlbum) {
+		if (obtenerParticipanteConDni(dni) != null)
+			throw new RuntimeException("Ya hay un participante registrado con este DNI");
+		
 		Participante participante = new Participante(dni, nombre, tipoAlbum);
+		
+		participantes.add(participante);
 		
 		return participante.obtenerCodigoDeAlbum();
 	}

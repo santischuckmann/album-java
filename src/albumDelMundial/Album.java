@@ -16,4 +16,8 @@ public class Album {
 	public boolean estoyCompletado() {
 		return (figuritasPegadas.size() == TOTAL_DE_FIGURITAS_PARA_PEGAR);
 	}
+	
+	public boolean completoPais() {
+		return false;
+	}
 }

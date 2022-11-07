@@ -100,6 +100,10 @@ public class Fabrica {
 				"Francia '98",   "Corea del Sur y Japón '02", "Alemania '06", 
 				"Sudáfrica '10", "Brasil '14", "Rusia '18" };
 	}
+	
+	private Figurita producirFigurita() {
+		
+	}
 
 	private Map<String, String[]> generarPaisesPorMundial() {
 		Map<String, String[]> ret = new HashMap<>();
