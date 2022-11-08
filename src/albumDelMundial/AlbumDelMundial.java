@@ -3,6 +3,8 @@ package albumDelMundial;
 import java.util.ArrayList;
 import java.util.List;
 
+import albumDelMundial.Figurita.TipoDeFigurita;
+
 public class AlbumDelMundial implements IAlbumDelMundial{
 	private ArrayList<Participante> participantes;
 	
@@ -10,11 +12,11 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 		this.participantes = new ArrayList<Participante>();
 	}
 	
-	private void verificarParticipanteRegistrado(int dni) throws Exception {
+	private void verificarParticipanteRegistrado(int dni) {
 		Participante participante = obtenerParticipanteConDni(dni);
 		
 		if (participante == null)
-			throw new Exception("El participante no esta registrado en el sistema");
+			throw new RuntimeException("El participante no esta registrado en el sistema");
 	}
 	
 	private Participante obtenerParticipanteConDni(int dni) {
@@ -29,26 +31,40 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 	}
 	
 	@Override
-	public int registrarParticipante(int dni, String nombre, String tipoAlbum) throws Exception {
+	public int registrarParticipante(int dni, String nombre, String tipoAlbum) {
+		if (obtenerParticipanteConDni(dni) != null)
+			throw new RuntimeException("Ya hay un participante registrado con este DNI");
+		
 		Participante participante = new Participante(dni, nombre, tipoAlbum);
+		
+		participantes.add(participante);
 		
 		return participante.obtenerCodigoDeAlbum();
 	}
 
 	@Override
-	public void comprarFiguritas(int dni) throws Exception {
+	public void comprarFiguritas(int dni) {
 		this.verificarParticipanteRegistrado(dni);
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
-		Figurita[] figuritasNuevas = Figurita.generarFiguritas(4);
+		List<Figurita> figuritasNuevas = Figurita.generarFiguritas(4, TipoDeFigurita.Tradicional);
 		
 		participante.recibirFiguritas(figuritasNuevas);
 	}
 
 	@Override
 	public void comprarFiguritasTop10(int dni) {
-		// TODO Auto-generated method stub
+		this.verificarParticipanteRegistrado(dni);
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		if (participante.obtenerTipoDeAlbumComprado() != "Extendido")
+			throw new RuntimeException("Debes poseer un album extendido para adquirir figuritas Top10");
+		
+		List<Figurita> figuritasNuevas = Figurita.generarFiguritas(4, TipoDeFigurita.Top10);
+		
+		participante.recibirFiguritas(figuritasNuevas);
 		
 	}
 

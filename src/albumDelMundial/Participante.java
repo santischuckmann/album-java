@@ -2,6 +2,7 @@ package albumDelMundial;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class Participante {
 	private int dni;
@@ -9,47 +10,28 @@ public class Participante {
 	private HashSet<Figurita> figuritasObtenidas;
 	private ArrayList<Figurita> figuritasRepetidas;
 	private Album albumComprado;
+	private String tipoDeAlbumComprado;
 	
-	public Participante(int dni, String nombreDeUsuario, String tipoDeAlbum) throws Exception {
+	public Participante(int dni, String nombreDeUsuario, String tipoDeAlbum) {
 		this.dni = dni;
 		this.nombreDeUsuario = nombreDeUsuario;
 
-		this.albumComprado = registrarTipoDeAlbum(tipoDeAlbum);
+		this.albumComprado = Album.obtenerAlbumPorSuTipo(tipoDeAlbum);
+		
+		this.tipoDeAlbumComprado = tipoDeAlbum;
 	}
 	
 	public int obtenerCodigoDeAlbum() {
 		return this.albumComprado.obtenerCodigo();
 	}
 	
-	private Album registrarTipoDeAlbum (String tipoDeAlbum) throws Exception {
-		Fabrica fabrica = new Fabrica();
-		Album albumElegido = null;
-		
-		switch (tipoDeAlbum) {
-		 case "Tradicional":
-			 albumElegido = fabrica.crearAlbumTradicional();
-		 case "Extendido":
-			 albumElegido = fabrica.crearAlbumExtendido();
-		 case "Web":
-			 albumElegido = fabrica.crearAlbumWeb();
-		}
-		
-		if (albumElegido == null)
-			throw new Exception("El tipo de album brindado no es valido");
-		
-		return albumElegido;
-		
-	}
-	
-	public void recibirFiguritas (Figurita[] figuritas) {
+	public void recibirFiguritas (List<Figurita> figuritas) {
 		for (Figurita figurita : figuritas) {
 			if (!figuritasObtenidas.contains(figurita))
 				figuritasObtenidas.add(figurita);
 			
 			figuritasRepetidas.add(figurita);
 		}
-		
-		// las recibe y las pega? o como era esto
 	}
 	
 	public int getDni() {
@@ -58,6 +40,10 @@ public class Participante {
 
 	public String getNombreDeUsuario() {
 		return nombreDeUsuario;
+	}
+	
+	public String obtenerTipoDeAlbumComprado() { 
+		return tipoDeAlbumComprado;
 	}
 
 	public HashSet<Figurita> getFiguritasObtenidas() {

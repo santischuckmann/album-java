@@ -1,27 +1,37 @@
 package albumDelMundial;
 
+import java.util.List;
 import java.util.Random;
 
 public class Figurita {
 	private int numero;
 	private String nombreDeJugador;
+	private String paisAnfitrion = "Qatar";
+	
+	enum TipoDeFigurita {
+		Top10,
+		Tradicional
+	}
 	
 	public Figurita (int numeroRandom) {
 		this.numero = numeroRandom;
+		this.nombreDeJugador = "Jugador" + numeroRandom;
 	}
 
 	public int calcularValorFinal() {
 		return 0;
 	}
 
-	public static Figurita[] generarFiguritas(int cantidadDeFiguritas) {
+	public static List<Figurita> generarFiguritas(int cantidadDeFiguritas, TipoDeFigurita tipo) {
 		Random random = new Random();
-		Figurita[] figuritas = new Figurita[cantidadDeFiguritas];
+		Fabrica fabrica = Fabrica.visitarFabrica();
+		List<Figurita> figuritas = null;
 		
-		for (int i = 0; i < cantidadDeFiguritas; i++) {
-			figuritas[i] = new Figurita(random.nextInt(350));
-		}
-		
+		if (tipo == TipoDeFigurita.Top10)
+			figuritas = fabrica.generarSobre(cantidadDeFiguritas);
+		else 
+			figuritas = fabrica.generarSobreTop10(cantidadDeFiguritas);
+	
 		return figuritas;
 	}
 }

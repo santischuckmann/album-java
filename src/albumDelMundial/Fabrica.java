@@ -18,8 +18,10 @@ public class Fabrica {
 	private String[] listadoDeMundialesTop10;
 	private Map<String, String[]> balonYPaisPorMundialTop10;
 	private Map<String, Integer> ranking;
+	
+	static private Fabrica fabrica = new Fabrica();
 
-	Fabrica() {
+	private Fabrica() {
 		random = new Random(System.currentTimeMillis());
 		lugaresPorPais = 12;
 		paisesParticipantes = generarPaisesClasificados();
@@ -27,6 +29,10 @@ public class Fabrica {
 		balonYPaisPorMundialTop10 = generarPaisesPorMundial();
 		ranking = generarRanking();
 		premiosInstantaneos = generarPremiosParaSorteoInstantaneo();
+	}
+	
+	static public Fabrica visitarFabrica() {
+		return fabrica;
 	}
 	
 	////////////////////////////////////////////////////////////////////////
@@ -37,9 +43,14 @@ public class Fabrica {
 	//       y el metodo "calcularValorBase" para saber que valor base    //
 	//       tendrá una figurita en particula.                            //
 	////////////////////////////////////////////////////////////////////////
+	
+	enum TipoDeBalon {
+		Plata,
+		Oro
+	}
 
 	Album crearAlbumWeb() {
-        throw new RuntimeException("A Implementar");
+		throw new RuntimeException("A Implementar");
 	}
 
 	Album crearAlbumExtendido() {
@@ -94,6 +105,7 @@ public class Fabrica {
 				"Francia '98",   "Corea del Sur y Japón '02", "Alemania '06", 
 				"Sudáfrica '10", "Brasil '14", "Rusia '18" };
 	}
+	
 
 	private Map<String, String[]> generarPaisesPorMundial() {
 		Map<String, String[]> ret = new HashMap<>();
