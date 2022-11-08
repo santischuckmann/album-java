@@ -3,6 +3,8 @@ package albumDelMundial;
 import java.util.ArrayList;
 import java.util.List;
 
+import albumDelMundial.Figurita.TipoDeFigurita;
+
 public class AlbumDelMundial implements IAlbumDelMundial{
 	private ArrayList<Participante> participantes;
 	
@@ -46,14 +48,23 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
-		Figurita[] figuritasNuevas = Figurita.generarFiguritas(4);
+		List<Figurita> figuritasNuevas = Figurita.generarFiguritas(4, TipoDeFigurita.Tradicional);
 		
 		participante.recibirFiguritas(figuritasNuevas);
 	}
 
 	@Override
 	public void comprarFiguritasTop10(int dni) {
-		// TODO Auto-generated method stub
+		this.verificarParticipanteRegistrado(dni);
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		if (participante.obtenerTipoDeAlbumComprado() != "Extendido")
+			throw new RuntimeException("Debes poseer un album extendido para adquirir figuritas Top10");
+		
+		List<Figurita> figuritasNuevas = Figurita.generarFiguritas(4, TipoDeFigurita.Top10);
+		
+		participante.recibirFiguritas(figuritasNuevas);
 		
 	}
 

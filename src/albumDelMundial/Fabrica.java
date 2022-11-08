@@ -43,9 +43,14 @@ public class Fabrica {
 	//       y el metodo "calcularValorBase" para saber que valor base    //
 	//       tendrá una figurita en particula.                            //
 	////////////////////////////////////////////////////////////////////////
+	
+	enum TipoDeBalon {
+		Plata,
+		Oro
+	}
 
 	Album crearAlbumWeb() {
-        throw new RuntimeException("A Implementar");
+		throw new RuntimeException("A Implementar");
 	}
 
 	Album crearAlbumExtendido() {
@@ -101,9 +106,6 @@ public class Fabrica {
 				"Sudáfrica '10", "Brasil '14", "Rusia '18" };
 	}
 	
-	private Figurita producirFigurita() {
-		
-	}
 
 	private Map<String, String[]> generarPaisesPorMundial() {
 		Map<String, String[]> ret = new HashMap<>();
