@@ -27,16 +27,15 @@ public class Album {
 	}
 	
 	public static Album obtenerAlbumPorSuTipo (String tipoDeAlbum) {
-		Fabrica fabrica = Fabrica.visitarFabrica();
 		Album albumElegido = null;
 		
 		switch (tipoDeAlbum) {
 		 case "Tradicional":
-			 albumElegido = fabrica.crearAlbumTradicional();
+			 albumElegido = Fabrica.solicitudAFabrica.crearAlbumTradicional();
 		 case "Extendido":
-			 albumElegido = fabrica.crearAlbumExtendido();
+			 albumElegido = Fabrica.solicitudAFabrica.crearAlbumExtendido();
 		 case "Web":
-			 albumElegido = fabrica.crearAlbumWeb();
+			 albumElegido = Fabrica.solicitudAFabrica.crearAlbumWeb();
 		}
 		
 		if (albumElegido == null)

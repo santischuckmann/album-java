@@ -28,8 +28,7 @@ public class Participante {
 	public void recibirFiguritas (List<Figurita> figuritas) {
 		for (Figurita figurita : figuritas) {
 			if (!figuritasObtenidas.contains(figurita))
-				figuritasObtenidas.add(figurita);
-			
+				figuritasObtenidas.add(figurita);			
 			figuritasRepetidas.add(figurita);
 		}
 	}

@@ -54,7 +54,6 @@ public interface IAlbumDelMundial {
 	 * Verifica si el participante identificado por dni ya completó el album.
 	 * Devuelve true si está completo, sino false.
 	 * Este metodo debe resolverse en O(1)
-	 *  
 	 * Si el participante no está registrado, se debe lanzar una excepción.
 	 */
 	boolean llenoAlbum(int dni) throws Exception;
