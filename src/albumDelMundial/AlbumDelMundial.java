@@ -7,6 +7,7 @@ import albumDelMundial.Figurita.TipoDeFigurita;
 
 public class AlbumDelMundial implements IAlbumDelMundial{
 	private ArrayList<Participante> participantes;
+	private ArrayList<Album> albums;
 	
 	public AlbumDelMundial() {
 		this.participantes = new ArrayList<Participante>();
@@ -70,19 +71,44 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 
 	@Override
 	public void comprarFiguritasConCodigoPromocional(int dni) {
-		// TODO Auto-generated method stub
+		this.verificarParticipanteRegistrado(dni);
 		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		if (participante.obtenerTipoDeAlbumComprado() == "Extendido" || participante.obtenerTipoDeAlbumComprado() == "Tradicional") {
+			throw new RuntimeException("Debes poseer un album tradicional o web para adquirir figuritas tradicionales");
+		}
+				
+		if (participante.getCodigoPromocionalUtilizado() == true) {
+			throw new RuntimeException("Ya utilizaste tu codigo promocional");
+		}
+		
+		List<Figurita> figuritasNuevas = Figurita.generarFiguritas(4, TipoDeFigurita.Tradicional);
+		
+		participante.recibirFiguritas(figuritasNuevas);
+		participante.setCodigoPromocionalUtilizado(true);		
 	}
 
 	@Override
 	public List<String> pegarFiguritas(int dni) {
-		// TODO Auto-generated method stub
+		if (obtenerParticipanteConDni(dni) == null)
+			throw new RuntimeException("El participante no esta registrado");	
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		if (participante.compararObtenidasConFiguritasEnSuAlbum() == true) {
+			
+			
+			
+		}
+		
 		return null;
 	}
 
 	@Override
-	public boolean llenoAlbum(int dni) throws Exception {
-		this.verificarParticipanteRegistrado(dni);
+	public boolean llenoAlbum(int dni) {
+		if (obtenerParticipanteConDni(dni) == null)
+			throw new RuntimeException("El participante no esta registrado");
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
@@ -90,15 +116,30 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 	}
 
 	@Override
-	public String aplicarSorteoInstantaneo(int dni) {
-		// TODO Auto-generated method stub
+	public String aplicarSorteoInstantaneo(int dni) {		
+		if (obtenerParticipanteConDni(dni) == null)
+			throw new RuntimeException("El participante no esta registrado");	
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		if (participante.obtenerTipoDeAlbumComprado() != "Tradicional")
+			throw new RuntimeException("Debes poseer un album tradicional para participar del sorteo");
+		
+		//sorteo?? nueva funcion?
 		return null;
 	}
 
 	@Override
 	public int buscarFiguritaRepetida(int dni) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (obtenerParticipanteConDni(dni) == null)
+			throw new RuntimeException("El participante no esta registrado");	
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		if (participante.getFiguritasRepetidas().size() > 0) {
+			return participante.getFiguritasRepetidas().get(0).getNumero();
+		}		
+		return -1;
 	}
 
 	@Override
@@ -115,25 +156,47 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 
 	@Override
 	public String darNombre(int dni) {
-		// TODO Auto-generated method stub
-		return null;
+		if (obtenerParticipanteConDni(dni) == null)
+			throw new RuntimeException("El participante no esta registrado");	
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		return participante.getNombreDeUsuario();
+		
 	}
 
 	@Override
 	public String darPremio(int dni) {
-		// TODO Auto-generated method stub
-		return null;
+		if (obtenerParticipanteConDni(dni) == null)
+			throw new RuntimeException("El participante no esta registrado");	
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		if (llenoAlbum(participante.getDni()) == false){
+			throw new RuntimeException("El participante no completo su album");
+		}
+		
+		if (participante.obtenerTipoDeAlbumComprado() == "AlbumWeb") {
+			return "Te ganaste una camiseta de la seleccion!";
+		}
+		
+		if (participante.obtenerTipoDeAlbumComprado() == "AlbumTradicional") {
+			return "Te ganaste una pelota!";
+		}		
+		return "Te ganaste una pelota y un viaje!";
 	}
 
 	@Override
 	public String listadoDeGanadores() {
-		// TODO Auto-generated method stub
+
+		
 		return null;
 	}
 
 	@Override
 	public List<String> participantesQueCompletaronElPais(String nombrePais) {
-		// TODO Auto-generated method stub
+			
+		
 		return null;
 	}
 }	

@@ -8,4 +8,5 @@ public class AlbumWeb extends Album {
 		
 		this.codigoPromocional = codigoPromocional;
 	}
+	
 }

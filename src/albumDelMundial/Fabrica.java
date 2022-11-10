@@ -17,9 +17,9 @@ public class Fabrica {
 	private int lugaresPorPais;
 	private String[] listadoDeMundialesTop10;
 	private Map<String, String[]> balonYPaisPorMundialTop10;
-	private Map<String, Integer> ranking;
+	private static Map<String, Integer> ranking;
 	
-	static private Fabrica fabrica = new Fabrica();
+	static public Fabrica solicitudAFabrica = new Fabrica();
 
 	private Fabrica() {
 		random = new Random(System.currentTimeMillis());
@@ -31,9 +31,6 @@ public class Fabrica {
 		premiosInstantaneos = generarPremiosParaSorteoInstantaneo();
 	}
 	
-	static public Fabrica visitarFabrica() {
-		return fabrica;
-	}
 	
 	////////////////////////////////////////////////////////////////////////
 	// NOTA: Deben implementar los siguientes metodos segun su modelo     //
@@ -62,6 +59,7 @@ public class Fabrica {
 	}
 
 	List<Figurita> generarSobre(int cantFigus) {
+		
 		throw new RuntimeException("A Implementar");
 	}		
 
@@ -76,11 +74,13 @@ public class Fabrica {
 	
 	// Dado el pais y numero de jugador de una figurita calcula
 	// cual es su valor base simbobilo.
-	private int calcularValorBase(String pais, int numero) {
-		return ranking.get(pais) + numero;
+	
+	public int calcularValorBase(String pais, int numero) {
+		return getRanking().get(pais) + numero;
 	}
+	
 
-	private String[] generarPremiosParaSorteoInstantaneo() {
+	public String[] generarPremiosParaSorteoInstantaneo() {
 		return new String[]{
 				"Una pelota","1 Sobre Gratis", "Una camiseta"
 			};
@@ -336,6 +336,10 @@ public class Fabrica {
 		ret.put("Anguila",210);
 		ret.put("San Marino",211);
 		return ret;
+	}
+
+	public static Map<String, Integer> getRanking() {
+		return ranking;
 	}
 
 }
