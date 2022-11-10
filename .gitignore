@@ -1,4 +1,5 @@
 bin
+.metadata/
 /src/albumDelMundial/.metadata
 /src/albumDelMundial/.settings
 

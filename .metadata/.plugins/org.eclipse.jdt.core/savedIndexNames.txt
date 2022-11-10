@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+/home/toto/git/album-java/.metadata/.plugins/org.eclipse.jdt.core
-3429627811.index
-1865797976.index
-4109755807.index
