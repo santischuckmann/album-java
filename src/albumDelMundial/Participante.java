@@ -11,8 +11,7 @@ public class Participante {
 	private ArrayList<Figurita> figuritasRepetidas;
 	private Album albumComprado;
 	private String tipoDeAlbumComprado;
-	private boolean codigoPromocionalUtilizado;
-	
+	private boolean haUtilizadoCodigoPromocional;
 
 	public Participante(int dni, String nombreDeUsuario, String tipoDeAlbum) {
 		this.dni = dni;
@@ -21,7 +20,7 @@ public class Participante {
 		this.albumComprado = Album.obtenerAlbumPorSuTipo(tipoDeAlbum);
 		
 		this.tipoDeAlbumComprado = tipoDeAlbum;
-		this.codigoPromocionalUtilizado = false;
+		this.haUtilizadoCodigoPromocional = false;
 	}
 	
 	public int obtenerCodigoDeAlbum() {
@@ -63,19 +62,59 @@ public class Participante {
 	public boolean completoAlbum() {
 		return this.albumComprado.estoyCompletado();
 	}
-	public boolean getCodigoPromocionalUtilizado() {
-		return codigoPromocionalUtilizado;
+	
+	
+	public boolean haUtilizadoCodigoPromocional() {
+		return haUtilizadoCodigoPromocional;
 	}
-	public void setCodigoPromocionalUtilizado(boolean codigoPromocionalUtilizado) {
-		this.codigoPromocionalUtilizado = codigoPromocionalUtilizado;
+	
+	public void utilizarCodigoPromocional() {
+		this.haUtilizadoCodigoPromocional = true;
 	}
-
-	public boolean compararObtenidasConFiguritasEnSuAlbum() {		
-		if (figuritasObtenidas.size() != albumComprado.getfiguritasYaPegadas().size() - 1) {
-			return true;
+	
+	public HashSet<Figurita> obtenerFiguritasPegadasDeAlbum() {
+		return this.albumComprado.obtenerFiguritasPegadas();
+	}
+	
+	public void pegarFiguritas() {
+		for (Figurita figurita: figuritasObtenidas)
+			if (!obtenerFiguritasPegadasDeAlbum().contains(figurita))
+				albumComprado.pegarFigurita(figurita);		
+	}
+	 
+	public boolean tieneFiguritasRepetidas() {
+		return this.figuritasRepetidas.size() > 0;
+	}
+	
+	public int obtenerNumeroDeFiguritaRepetida(int indice) {
+		return getFiguritasRepetidas().get(indice - 1).getNumero();
+	}
+	
+	public String toString(String premio) {
+		return "-" + this.dni + this.nombreDeUsuario + ":" + premio;
+	}
+	
+	public Figurita buscarFiguritaRepetidaMedianteCodigo(int codigoDeFigurita) {
+		for (Figurita figurita: figuritasRepetidas)
+			if (figurita.getNumero() == codigoDeFigurita)
+				return figurita;
+		
+		return null;
+	}
+	
+	public Figurita encontrarFiguritaRepetidaMenorOIgualEnValor(int valor) {
+		Figurita figuritaEncontrada = null;
+		int indice = 0;
+		
+		while(figuritaEncontrada.equals(null)) {
+			Figurita figurita = figuritasRepetidas.get(indice);
+			
+			if (figurita.calcularValorFinal() <= valor)
+				figuritaEncontrada = figurita;
+			
+			indice++;
 		}
-		return false;			
+		
+		return figuritaEncontrada;
 	}
-	
-	
 }
