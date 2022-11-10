@@ -1,5 +1,7 @@
 package albumDelMundial;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -9,19 +11,26 @@ public class Figurita {
 	private String nombreDeJugador;
 	private String paisAnfitrion = "Qatar";
 	private int valorBase;
+	private String pais;
 	
 	enum TipoDeFigurita {
 		Top10,
 		Tradicional
 	}
 	
-	public Figurita (int numeroRandom) {
+	public Figurita (int numeroRandom, String pais) {
 		this.numero = numeroRandom;
 		this.nombreDeJugador = "Jugador " + numeroRandom;
+		this.pais = pais;
 	}
 
 	public int calcularValorFinal() {
-		return Fabrica.solicitudAFabrica.calcularValorBase(Fabrica.getRanking().get(), numero);
+		return Fabrica.solicitudAFabrica.calcularValorBase(this.pais, this.numero);
+	}
+	
+	@Override
+	public String toString() {
+		return this.pais + "" + this.numero;
 	}
 
 	public static List<Figurita> generarFiguritas(int cantidadDeFiguritas, TipoDeFigurita tipo) {
@@ -35,6 +44,17 @@ public class Figurita {
 	
 		return figuritas;
 	}
+	
+	public static List<String> generarMuestraDeFiguritas(HashSet<Figurita> figuritas) {
+		List<String> muestraDeFiguritas = new ArrayList<String>();
+		
+		for(Figurita figurita: figuritas)
+			muestraDeFiguritas.add(figurita.toString());
+		
+		return muestraDeFiguritas;
+	}
+	
+	
 	
 	public int getNumero() {
 		return numero;

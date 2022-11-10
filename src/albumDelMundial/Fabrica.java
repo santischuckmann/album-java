@@ -18,12 +18,14 @@ public class Fabrica {
 	private String[] listadoDeMundialesTop10;
 	private Map<String, String[]> balonYPaisPorMundialTop10;
 	private static Map<String, Integer> ranking;
+	private int equiposPorMundial;
 	
 	static public Fabrica solicitudAFabrica = new Fabrica();
 
 	private Fabrica() {
 		random = new Random(System.currentTimeMillis());
 		lugaresPorPais = 12;
+		equiposPorMundial = 32;
 		paisesParticipantes = generarPaisesClasificados();
 		listadoDeMundialesTop10 = generarListadoDeMundiales();
 		balonYPaisPorMundialTop10 = generarPaisesPorMundial();
@@ -58,13 +60,38 @@ public class Fabrica {
 		throw new RuntimeException("A Implementar");
 	}
 
-	List<Figurita> generarSobre(int cantFigus) {
-		
-		throw new RuntimeException("A Implementar");
+	List<Figurita> generarSobre(int cantidadDeFiguritas) {
+		int cantidadTotalDeJugadores = this.lugaresPorPais * equiposPorMundial;
+		Random random = new Random();
+		ArrayList<Figurita> figuritas = new ArrayList<Figurita>(cantidadDeFiguritas);
+
+		for (int i = 0; i < cantidadDeFiguritas; i++) {
+			int numeroAleatorio = random.nextInt(cantidadTotalDeJugadores);
+			figuritas.add(new Figurita(numeroAleatorio, this.obtenerPaisSegunNumeroDeFigurita(numeroAleatorio)));
+		}
+
+		return figuritas;
 	}		
 
-	List<Figurita> generarSobreTop10(int cantFigus) {
-		throw new RuntimeException("A Implementar");
+	List<Figurita> generarSobreTop10(int cantidadDeFiguritas) {
+		int cantidadTotalDeJugadores = this.lugaresPorPais * equiposPorMundial;
+		Random random = new Random();
+		ArrayList<Figurita> figuritas = new ArrayList<Figurita>(cantidadDeFiguritas);
+
+		for (int i = 0; i < cantidadDeFiguritas; i++) {
+			int numeroAleatorio = random.nextInt(cantidadTotalDeJugadores);
+			figuritas.add(
+				new FiguritaTop10(numeroAleatorio, 
+				this.obtenerPaisSegunNumeroDeFigurita(numeroAleatorio),
+				TipoDeBalon.Plata
+			));
+		}
+
+		return figuritas;
+	}
+	
+	private String obtenerPaisSegunNumeroDeFigurita(int numeroDeFigurita) {
+		return paisesParticipantes[numeroDeFigurita % 12];
 	}
 
 

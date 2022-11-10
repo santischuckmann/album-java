@@ -7,7 +7,6 @@ import albumDelMundial.Figurita.TipoDeFigurita;
 
 public class AlbumDelMundial implements IAlbumDelMundial{
 	private ArrayList<Participante> participantes;
-	private ArrayList<Album> albums;
 	
 	public AlbumDelMundial() {
 		this.participantes = new ArrayList<Participante>();
@@ -75,40 +74,34 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
-		if (participante.obtenerTipoDeAlbumComprado() == "Extendido" || participante.obtenerTipoDeAlbumComprado() == "Tradicional") {
+		if (participante.obtenerTipoDeAlbumComprado() != "Web") {
 			throw new RuntimeException("Debes poseer un album tradicional o web para adquirir figuritas tradicionales");
 		}
 				
-		if (participante.getCodigoPromocionalUtilizado() == true) {
+		if (participante.haUtilizadoCodigoPromocional()) {
 			throw new RuntimeException("Ya utilizaste tu codigo promocional");
 		}
 		
 		List<Figurita> figuritasNuevas = Figurita.generarFiguritas(4, TipoDeFigurita.Tradicional);
 		
 		participante.recibirFiguritas(figuritasNuevas);
-		participante.setCodigoPromocionalUtilizado(true);		
+		participante.utilizarCodigoPromocional();		
 	}
 
 	@Override
 	public List<String> pegarFiguritas(int dni) {
-		if (obtenerParticipanteConDni(dni) == null)
-			throw new RuntimeException("El participante no esta registrado");	
+		this.verificarParticipanteRegistrado(dni);	
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
-		if (participante.compararObtenidasConFiguritasEnSuAlbum() == true) {
-			
-			
-			
-		}
+		participante.pegarFiguritas();
 		
-		return null;
+		return Figurita.generarMuestraDeFiguritas(participante.obtenerFiguritasPegadasDeAlbum());
 	}
 
 	@Override
 	public boolean llenoAlbum(int dni) {
-		if (obtenerParticipanteConDni(dni) == null)
-			throw new RuntimeException("El participante no esta registrado");
+		this.verificarParticipanteRegistrado(dni);
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
@@ -117,13 +110,18 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 
 	@Override
 	public String aplicarSorteoInstantaneo(int dni) {		
-		if (obtenerParticipanteConDni(dni) == null)
-			throw new RuntimeException("El participante no esta registrado");	
+		this.verificarParticipanteRegistrado(dni);	
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
 		if (participante.obtenerTipoDeAlbumComprado() != "Tradicional")
 			throw new RuntimeException("Debes poseer un album tradicional para participar del sorteo");
+		
+		if (participante.haUtilizadoCodigoPromocional()) {
+			throw new RuntimeException("Ya utilizaste tu codigo promocional");
+		}
+		
+		if (participante.get)
 		
 		//sorteo?? nueva funcion?
 		return null;
@@ -131,21 +129,61 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 
 	@Override
 	public int buscarFiguritaRepetida(int dni) {
-		if (obtenerParticipanteConDni(dni) == null)
-			throw new RuntimeException("El participante no esta registrado");	
+		this.verificarParticipanteRegistrado(dni);	
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
-		if (participante.getFiguritasRepetidas().size() > 0) {
-			return participante.getFiguritasRepetidas().get(0).getNumero();
-		}		
+		if (participante.tieneFiguritasRepetidas()) {
+			return participante.obtenerNumeroDeFiguritaRepetida(1);
+		}
+		
 		return -1;
 	}
 
 	@Override
 	public boolean intercambiar(int dni, int codFigurita) {
-		// TODO Auto-generated method stub
-		return false;
+		this.verificarParticipanteRegistrado(dni);
+		
+		Participante participante = this.obtenerParticipanteConDni(dni);
+		
+		String tipoDeAlbum = participante.obtenerTipoDeAlbumComprado();
+		
+		ArrayList<Participante> participantesConMismoAlbum = this.devolverParticipantesConMismoAlbum(tipoDeAlbum);
+		
+		Figurita figuritaAIntercambiar = participante.buscarFiguritaRepetidaMedianteCodigo(codFigurita);
+		
+		int valorDeFigurita = figuritaAIntercambiar.calcularValorFinal();
+		
+		Figurita figuritaEncontrada = null;
+		Participante participanteEncontrado = null;
+		int numeroDeParticipanteActual = 0;
+		
+		while(figuritaEncontrada.equals(null)) {
+			participanteEncontrado = participantesConMismoAlbum.get(numeroDeParticipanteActual);
+			figuritaEncontrada = participante.encontrarFiguritaRepetidaMenorOIgualEnValor(valorDeFigurita);
+			
+			numeroDeParticipanteActual++;
+		}
+		
+		if (figuritaEncontrada.equals(null))
+			return false;	
+		
+		// complicado, falta implementar logica de intercambio
+		// repensar como hacer para intercambiar, no
+		// entiendo si de una se intercambian figuritas repetidas o en este caso,
+		// serian obtenidas.
+		
+		return true;
+	}
+	
+	private ArrayList<Participante> devolverParticipantesConMismoAlbum(String tipoDeAlbum) {
+		ArrayList<Participante> participanteConMismoAlbum = new ArrayList<Participante>();
+		
+		for(Participante participante: participantes) 
+			if (participante.obtenerTipoDeAlbumComprado() == tipoDeAlbum)
+				participanteConMismoAlbum.add(participante);
+		
+		return participanteConMismoAlbum;
 	}
 
 	@Override
@@ -156,8 +194,7 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 
 	@Override
 	public String darNombre(int dni) {
-		if (obtenerParticipanteConDni(dni) == null)
-			throw new RuntimeException("El participante no esta registrado");	
+		this.verificarParticipanteRegistrado(dni);
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
@@ -167,20 +204,19 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 
 	@Override
 	public String darPremio(int dni) {
-		if (obtenerParticipanteConDni(dni) == null)
-			throw new RuntimeException("El participante no esta registrado");	
+		this.verificarParticipanteRegistrado(dni);
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
-		if (llenoAlbum(participante.getDni()) == false){
+		if (!llenoAlbum(dni)){
 			throw new RuntimeException("El participante no completo su album");
 		}
 		
-		if (participante.obtenerTipoDeAlbumComprado() == "AlbumWeb") {
+		if (participante.obtenerTipoDeAlbumComprado() == "Web") {
 			return "Te ganaste una camiseta de la seleccion!";
 		}
 		
-		if (participante.obtenerTipoDeAlbumComprado() == "AlbumTradicional") {
+		if (participante.obtenerTipoDeAlbumComprado() == "Tradicional") {
 			return "Te ganaste una pelota!";
 		}		
 		return "Te ganaste una pelota y un viaje!";
@@ -188,9 +224,13 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 
 	@Override
 	public String listadoDeGanadores() {
-
+		String listadoDeGanadores = "";
 		
-		return null;
+		for (Participante participante: participantes)
+			if (llenoAlbum(participante.getDni()))
+				listadoDeGanadores += participante.toString(darPremio(participante.getDni())) + "\n";
+		
+		return listadoDeGanadores;
 	}
 
 	@Override

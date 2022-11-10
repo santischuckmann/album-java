@@ -1,6 +1,7 @@
 package albumDelMundial;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class Album {
 	private int codigo;
@@ -45,7 +46,11 @@ public class Album {
 		
 	}
 	
-	public HashSet<Figurita> getfiguritasYaPegadas() {
+	public HashSet<Figurita> obtenerFiguritasPegadas() {
 		return figuritasPegadas;
+	}
+	
+	public void pegarFigurita(Figurita figurita) {
+		this.figuritasPegadas.add(figurita);
 	}
 }
