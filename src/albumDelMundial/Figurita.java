@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Figurita {
 	private int numero;
+
 	private String nombreDeJugador;
 	private String paisAnfitrion = "Qatar";
 	private int valorBase;
@@ -34,5 +35,9 @@ public class Figurita {
 			figuritas = Fabrica.solicitudAFabrica.generarSobreTop10(cantidadDeFiguritas);
 	
 		return figuritas;
+	}
+	
+	public int getNumero() {
+		return numero;
 	}
 }

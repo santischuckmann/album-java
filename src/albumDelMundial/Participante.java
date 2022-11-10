@@ -11,7 +11,9 @@ public class Participante {
 	private ArrayList<Figurita> figuritasRepetidas;
 	private Album albumComprado;
 	private String tipoDeAlbumComprado;
+	private boolean codigoPromocionalUtilizado;
 	
+
 	public Participante(int dni, String nombreDeUsuario, String tipoDeAlbum) {
 		this.dni = dni;
 		this.nombreDeUsuario = nombreDeUsuario;
@@ -19,6 +21,7 @@ public class Participante {
 		this.albumComprado = Album.obtenerAlbumPorSuTipo(tipoDeAlbum);
 		
 		this.tipoDeAlbumComprado = tipoDeAlbum;
+		this.codigoPromocionalUtilizado = false;
 	}
 	
 	public int obtenerCodigoDeAlbum() {
@@ -59,5 +62,11 @@ public class Participante {
 
 	public boolean completoAlbum() {
 		return this.albumComprado.estoyCompletado();
+	}
+	public boolean getCodigoPromocionalUtilizado() {
+		return codigoPromocionalUtilizado;
+	}
+	public void setCodigoPromocionalUtilizado(boolean codigoPromocionalUtilizado) {
+		this.codigoPromocionalUtilizado = codigoPromocionalUtilizado;
 	}
 }

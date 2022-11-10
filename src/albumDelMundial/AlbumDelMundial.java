@@ -79,14 +79,14 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 			throw new RuntimeException("Debes poseer un album tradicional o web para adquirir figuritas tradicionales");
 		}
 				
-		if (participante.codigoPromocionalUtilizado == true) {
+		if (participante.getCodigoPromocionalUtilizado() == true) {
 			throw new RuntimeException("Ya utilizaste tu codigo promocional");
 		}
 		
 		List<Figurita> figuritasNuevas = Figurita.generarFiguritas(4, TipoDeFigurita.Tradicional);
 		
 		participante.recibirFiguritas(figuritasNuevas);
-		participante.codigoPromocionalUtilizado == true;		
+		participante.setCodigoPromocionalUtilizado(true);		
 	}
 
 	@Override
@@ -95,6 +95,7 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 			throw new RuntimeException("El participante no esta registrado");	
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
+		
 		
 		return null;
 	}
@@ -130,7 +131,10 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
-		return participante.getFiguritasRepetidas().get(0);  //COMO CARAJO CONSIGO EL CODIGO DE LA FIGURITA??? AJSKASSAK
+		if (participante.getFiguritasRepetidas().size() > 0) {
+			return participante.getFiguritasRepetidas().get(0).getNumero();
+		}		
+		return -1;
 	}
 
 	@Override
@@ -168,18 +172,19 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 		}
 		
 		if (participante.obtenerTipoDeAlbumComprado() == "AlbumWeb") {
-			return "Te ganaste una camiseta de la seleccion";
+			return "Te ganaste una camiseta de la seleccion!";
 		}
 		
 		if (participante.obtenerTipoDeAlbumComprado() == "AlbumTradicional") {
-			return "Te ganaste una pelota";
+			return "Te ganaste una pelota!";
 		}		
-		return "Te ganaste una pelota y un viaje";
+		return "Te ganaste una pelota y un viaje!";
 	}
 
 	@Override
 	public String listadoDeGanadores() {
-		// TODO Auto-generated method stub
+
+		
 		return null;
 	}
 
