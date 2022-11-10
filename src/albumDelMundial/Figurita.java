@@ -20,9 +20,8 @@ public class Figurita {
 		this.nombreDeJugador = "Jugador " + numeroRandom;
 	}
 
-	public int calcularValorFinal() {		
-		
-		return valorBase + Fabrica.getRanking().get(pais);
+	public int calcularValorFinal() {
+		return Fabrica.solicitudAFabrica.calcularValorBase(Fabrica.getRanking().get(), numero);
 	}
 
 	public static List<Figurita> generarFiguritas(int cantidadDeFiguritas, TipoDeFigurita tipo) {

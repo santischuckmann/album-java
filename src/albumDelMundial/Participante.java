@@ -69,4 +69,13 @@ public class Participante {
 	public void setCodigoPromocionalUtilizado(boolean codigoPromocionalUtilizado) {
 		this.codigoPromocionalUtilizado = codigoPromocionalUtilizado;
 	}
+
+	public boolean compararObtenidasConFiguritasEnSuAlbum() {		
+		if (figuritasObtenidas.size() != albumComprado.getfiguritasYaPegadas().size() - 1) {
+			return true;
+		}
+		return false;			
+	}
+	
+	
 }

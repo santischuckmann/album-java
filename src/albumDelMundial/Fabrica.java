@@ -74,11 +74,13 @@ public class Fabrica {
 	
 	// Dado el pais y numero de jugador de una figurita calcula
 	// cual es su valor base simbobilo.
-	private int calcularValorBase(String pais, int numero) {
+	
+	public int calcularValorBase(String pais, int numero) {
 		return getRanking().get(pais) + numero;
 	}
+	
 
-	private String[] generarPremiosParaSorteoInstantaneo() {
+	public String[] generarPremiosParaSorteoInstantaneo() {
 		return new String[]{
 				"Una pelota","1 Sobre Gratis", "Una camiseta"
 			};

@@ -44,4 +44,8 @@ public class Album {
 		return albumElegido;
 		
 	}
+	
+	public HashSet<Figurita> getfiguritasYaPegadas() {
+		return figuritasPegadas;
+	}
 }

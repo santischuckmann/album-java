@@ -96,6 +96,11 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 		
 		Participante participante = this.obtenerParticipanteConDni(dni);
 		
+		if (participante.compararObtenidasConFiguritasEnSuAlbum() == true) {
+			
+			
+			
+		}
 		
 		return null;
 	}
@@ -190,9 +195,7 @@ public class AlbumDelMundial implements IAlbumDelMundial{
 
 	@Override
 	public List<String> participantesQueCompletaronElPais(String nombrePais) {
-		
-		ArrayList <Participante> participantesQueCompletaronElPais = new ArrayList();
-		
+			
 		
 		return null;
 	}
