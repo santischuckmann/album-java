@@ -1,2 +1,4 @@
 bin
-**/src/*/
+**/src/.metadata/
+**/src/.settings/
+
