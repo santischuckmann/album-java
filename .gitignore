@@ -1,4 +1,4 @@
 bin
-**/src/.metadata/
-**/src/.settings/
+/src/albumDelMundial/.metadata
+/src/albumDelMundial/.settings
 
